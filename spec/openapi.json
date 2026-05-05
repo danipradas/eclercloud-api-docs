@@ -1,0 +1,268 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "EclerCLOUD API Documentation",
+    "description": "EclerCLOUD is the Ecler's devices cloud system. It allows to control and access EclerCLOUD compatible devices, from everywhere as long as you have a browser and internet connection. \n \n Some useful links: \n - [Ecler](https://www.ecler.com) \n - [VIDA-24Q ](https://www.ecler.com/en/products/vida-24q/)",
+    "version": "0.1.0"
+  },
+  "components": {
+    "schemas": {
+      "Device": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "model": { "type": "string" },
+          "notes": { "type": "string" },
+          "uptime": { "type": "number" },
+          "runtime": { "type": "number" },
+          "networkInterfaces": {
+            "type": "object",
+            "example": {
+              "1": {
+                "ip": "string",
+                "mask": "string",
+                "macAddress": "string",
+                "gateway": "string",
+                "dns": ["string"]
+              },
+              "2": {
+                "ip": "string",
+                "mask": "string",
+                "macAddress": "string",
+                "gateway": "string",
+                "dns": ["string"]
+              }
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "ip": { "type": "string" },
+                "mask": { "type": "string" },
+                "macAddress": { "type": "string" },
+                "gateway": { "type": "string" },
+                "dns": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          },
+          "firmwareVersion": { "type": "string" },
+          "isOnline": { "type": "boolean" },
+          "group": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" }
+            }
+          },
+          "cloudStatus": { "type": "string" },
+          "macAddress": { "type": "string" },
+          "powered": { "type": "boolean" },
+          "automaticUpdateCron": { "type": "string" },
+          "lastUpdate": { "type": "string" },
+          "createdAt": { "type": "string" },
+          "additionalParameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "type": {
+                  "type": "string",
+                  "enum": ["boolean", "string"]
+                },
+                "value": {
+                  "type": ["boolean", "string", "number"]
+                }
+              }
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "NetworkInterface": {
+        "type": "object",
+        "properties": {
+          "ip": { "type": "string" },
+          "mask": { "type": "string" },
+          "macAddress": { "type": "string" },
+          "gateway": { "type": "string" },
+          "dns": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "pairingToken": { "type": "string" }
+        }
+      },
+      "Group": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "notes": { "type": "string" },
+          "description": { "type": "string" },
+          "parentGroupId": { "type": ["null", "string"] },
+          "deviceConnectedCount": { "type": "number" },
+          "deviceDisconnectedCount": { "type": "number" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "childGroups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "CloudStatus": {
+        "type": "string",
+        "enum": ["approved", "quarantined", "unapproved", "unpaired"]
+      },
+      "FirmwareUpdate": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "firmwareUrl": { "type": "string" },
+          "plannedAt": { "type": "string" },
+          "status": { "type": "string" },
+          "deviceId": { "type": "string" },
+          "groupId": { "type": "string" },
+          "parentId": { "type": "string" },
+          "outputData": { "type": "object" }
+        }
+      },
+      "FirmwareUpdateStatus": {
+        "type": "string",
+        "enum": ["cancelled", "failed", "finished", "pending", "started"]
+      }
+    },
+    "securitySchemes": {
+      "eclerCloudAuth": {
+        "type": "oauth2",
+        "description": "This API uses OAuth 2 with the client credentials flow.",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "/auth/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth/token": {
+      "delete": {
+        "summary": "Invalidates the authentication token",
+        "tags": ["Auth"],
+        "security": [{ "eclerCloudAuth": [] }],
+        "responses": {
+          "204": { "description": "Default Response" },
+          "403": { "description": "Not allowed" }
+        }
+      },
+      "post": {
+        "summary": "Request a new authentication token",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": { "type": "string" },
+                  "client_secret": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": { "type": "string" },
+                    "expires_in": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request" }
+        }
+      }
+    },
+    "/organization": {
+      "get": {
+        "summary": "Get organization details",
+        "tags": ["Organization"],
+        "security": [{ "eclerCloudAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "pairingToken": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "403": { "description": "Not allowed" },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/devices/{id}": {
+      "get": {
+        "summary": "Find a device by ID",
+        "tags": ["Devices"],
+        "parameters": [
+          {
+            "schema": { "type": "string" },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [{ "eclerCloudAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Device" }
+              }
+            }
+          },
+          "403": { "description": "Not allowed" },
+          "404": { "description": "Not found" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+# Credentials — never commit
+.env
+
+# Python runtime
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Test and lint caches
+docs/07-claude-setup-review.md
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build artefacts
+dist/
+build/
+*.egg-info/
+.python-version
+CHANGELOG.md
+skills-lock.json
+
+# IDE
+.vscode/*
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code — per-developer permission allowlists (not shared)
+.claude/*
+
+# Playwright runtime state
+.playwright/

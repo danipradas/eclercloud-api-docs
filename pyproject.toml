@@ -1,0 +1,32 @@
+[project]
+name = "eclercloud-api-docs"
+version = "0.2.0"
+description = "EclerCLOUD REST API documentation, test suite, and AI-assistant integration guide (TFG)"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytest>=9.0.2",
+    "python-dotenv>=1.2.2",
+    "requests>=2.33.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14",
+]
+
+[tool.pytest.ini_options]
+addopts = "-v --tb=short"
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)-8s] %(name)s: %(message)s"
+log_cli_date_format = "%H:%M:%S"
+log_level = "INFO"
+
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+exclude = [".claude/skills"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "SIM"]
