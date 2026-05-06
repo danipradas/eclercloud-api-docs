@@ -35,7 +35,6 @@ Every endpoint includes:
 | [04 — Security](04-security.md) | 14 findings, severity-rated |
 | [05 — Open Questions](05-open-questions.md) | 22 questions for API developers |
 | [06 — MCP Blueprint](06-mcp-blueprint.md) | Proposed MCP server design for AI assistant |
-| [07 — Claude Setup Review](07-claude-setup-review.md) | Best-practice review of this project's Claude Code setup |
 
 ---
 

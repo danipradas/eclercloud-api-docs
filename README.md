@@ -152,9 +152,9 @@ uv run ruff check .
 uv run ruff format .
 ```
 
-### Claude Code
+### Coding Agent setup
 
-This project is configured for [Claude Code](https://claude.ai/code) or similar coding agents:
+This project is configured for Claude Code or similar coding agents:
 
 - **MCP server** — `dkmaker-mcp-rest-api` lets Claude call the API directly
 - **Subagent** — `eclercloud-tester` handles delegated endpoint testing
