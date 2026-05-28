@@ -51,9 +51,6 @@ uv run pytest tests/ -v              # full suite
 │   │   └── status.md
 │   ├── 03-test-results.md             # All 35 tests: PASS / FAIL / SKIP
 │   ├── 04-security.md                 # 14 security findings, severity-rated
-│   ├── 05-open-questions.md           # 23 questions for API developers
-│   ├── 06-mcp-blueprint.md            # Proposed MCP server design
-│   └── 07-claude-setup-review.md      # Claude Code best-practice audit
 ├── tests/
 │   ├── conftest.py                    # Session-scoped auth fixture
 │   ├── test_auth.py
@@ -64,11 +61,7 @@ uv run pytest tests/ -v              # full suite
 │   └── test_status.py
 ├── scripts/
 │   └── capture_api_responses.py      # Live API probe CLI
-├── .claude/
-│   ├── agents/eclercloud-tester.md   # Subagent for delegated API testing
-│   └── settings.json                 # MCP config + test-rerun hook
 ├── .env.example                      # Credential template
-├── CLAUDE.md                         # Claude Code project instructions
 └── pyproject.toml
 ```
 
@@ -88,9 +81,6 @@ Quick links:
 - [API Overview](docs/01-overview.md) — base URL, auth model, pagination, error formats
 - [Endpoint Reference](docs/endpoints/) — all 22 endpoints
 - [Security Findings](docs/04-security.md) — 14 findings (3 HIGH, 6 MEDIUM, 5 LOW)
-- [MCP Blueprint](docs/06-mcp-blueprint.md) — how to build a natural-language interface on top of this API
-- [Open Questions](docs/05-open-questions.md) — 23 questions for Ecler API developers
-
 ---
 
 ## Running the Tests
@@ -152,16 +142,6 @@ uv run ruff check .
 uv run ruff format .
 ```
 
-### Coding Agent setup
-
-This project is configured for Claude Code or similar coding agents:
-
-- **MCP server** — `dkmaker-mcp-rest-api` lets Claude call the API directly
-- **Subagent** — `eclercloud-tester` handles delegated endpoint testing
-- **Hook** — editing a `tests/test_*.py` file auto-runs that file's tests
-- **Skills** — `api-testing`, `playwright-cli` available as slash commands
-
----
 
 ## Key Findings
 
